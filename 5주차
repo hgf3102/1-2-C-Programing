@@ -20,17 +20,23 @@ int main() {
             scanf("%d", &input_type);
             
             if (input_type == 1) {
+                int amount;
                 printf("전체 상품의 입고수량을 입력하세요: ");
+                scanf("%d", &amount);
                 for (int i = 0; i < 5; i++) {
-                    scanf("%d", &stock[i]);
+                    stock[i] += amount;
                 }
             } else if (input_type == 2) {
                 int product_id, amount;
-                printf("상품ID : ");
+                printf("상품ID (1-5) : ");
                 scanf("%d", &product_id);
-                printf("입고수량 : ");
-                scanf("%d", &amount);
-                stock[product_id - 1] += amount;
+                if (product_id >= 1 && product_id <= 5) {
+                    printf("입고수량 : ");
+                    scanf("%d", &amount);
+                    stock[product_id - 1] += amount;
+                } else {
+                    printf("잘못된 상품ID입니다.\n");
+                }
             }
         }
         
@@ -40,17 +46,45 @@ int main() {
             scanf("%d", &input_type);
             
             if (input_type == 1) {
+                int amount;
                 printf("전체 상품의 판매수량을 입력하세요: ");
+                scanf("%d", &amount);
+                
+                // 재고 확인
+                int can_sell = 1;
                 for (int i = 0; i < 5; i++) {
-                    scanf("%d", &sales[i]);
+                    if (stock[i] - sales[i] < amount) {
+                        can_sell = 0;
+                        break;
+                    }
+                }
+                
+                if (can_sell) {
+                    for (int i = 0; i < 5; i++) {
+                        sales[i] += amount;
+                    }
+                    printf("판매가 완료되었습니다.\n");
+                } else {
+                    printf("재고가 부족하여 판매할 수 없습니다.\n");
                 }
             } else if (input_type == 2) {
                 int product_id, amount;
-                printf("상품ID : ");
+                printf("상품ID (1-5) : ");
                 scanf("%d", &product_id);
-                printf("판매수량 : ");
-                scanf("%d", &amount);
-                sales[product_id - 1] += amount;
+                if (product_id >= 1 && product_id <= 5) {
+                    printf("판매수량 : ");
+                    scanf("%d", &amount);
+                    
+                    // 재고 확인
+                    if (stock[product_id - 1] - sales[product_id - 1] >= amount) {
+                        sales[product_id - 1] += amount;
+                        printf("판매가 완료되었습니다.\n");
+                    } else {
+                        printf("재고가 부족하여 판매할 수 없습니다.\n");
+                    }
+                } else {
+                    printf("잘못된 상품ID입니다.\n");
+                }
             }
         }
         
