@@ -15,7 +15,7 @@ typedef struct {
 Product products[MAX_PRODUCTS];
 int product_count = 0;
 
-// 상품ID로 index 찾기
+
 int find_product(int id) {
     for(int i = 0; i < product_count; i++)
         if(products[i].id == id) return i;
@@ -53,7 +53,7 @@ void input_product() {
         products[product_count].total_sales = 0;
         product_count++;
     } else if(idx != -1) {
-        // 기존 상품 업데이트 (가격/재고만 갱신)
+
         strcpy(products[idx].name, name);
         products[idx].stock += input_stock;
         products[idx].price = input_price;
